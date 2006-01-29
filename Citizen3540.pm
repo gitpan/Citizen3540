@@ -10,7 +10,7 @@ use vars qw/$VERSION %EXPORT_TAGS @ISA/;
 use Exporter ();
 @ISA = qw/Exporter/;
 %EXPORT_TAGS = (constants => [qw/RED BIG ULINE CENTER/]);
-$VERSION = 0.5;
+$VERSION = 0.6;
 
 Exporter::export_ok_tags('constants');
 
@@ -57,23 +57,22 @@ sub print
 	my @lines = split("\n", wrap(shift, COLS - 2)); # Wrap shorter to prevent weird breaking issues
 	my $modes = shift || 0;
 
-	open TMP, ">/tmp/print";
 	sysopen(LP, $lpDev, O_WRONLY | O_APPEND);
 
-	print TMP $chars{'enlarge'} if ($modes & BIG);
-	print TMP $chars{'uline'} if ($modes & ULINE);
+	print LP $chars{'enlarge'} if ($modes & BIG);
+	print LP $chars{'uline'} if ($modes & ULINE);
 
 	foreach my $line (@lines)
 	{
 		$line = $self->centerText($line) if ($modes & CENTER);
 
-		print TMP $chars{'red'} if ($modes & RED);
-		print TMP $line;
-		print TMP "\n";
+		print LP $chars{'red'} if ($modes & RED);
+		print LP $line;
+		print LP "\n";
 	}
 
-	print TMP $chars{'clruline'} if ($modes & ULINE);
-	print TMP $chars{'clrenlarge'} if ($modes & BIG);
+	print LP $chars{'clruline'} if ($modes & ULINE);
+	print LP $chars{'clrenlarge'} if ($modes & BIG);
 	
 	close(LP);
 }
@@ -119,7 +118,11 @@ sub centerText
 	my $self = shift;
 	my $text = shift;
 
-	return $text;
+	my $len = length($text);
+
+	return $text if($len >= COLS); #TODO: this might want to warn/croak
+	
+	return (' ' x ((COLS - $len) / 2) . $text);
 }
 
 # make us eval true

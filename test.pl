@@ -15,3 +15,15 @@ print "ok 1\n";
 #####
 # Test Suite
 #####
+my $printer = new Device::Citizen3540;
+$printer->beep();
+$printer->print("TITLE", BIG | RED | CENTER);
+$printer->print("This is a bunch of text, really long, really really really really long to see how long lines are handled\n");
+
+$printer->print("This text is red\n", RED);
+$printer->print("This is a bunch of RED text, really long, really really really really long to see how long lines are handled", RED);
+
+$printer->print("This is underlined", ULINE);
+
+$printer->feed(5);
+$printer->cut();
