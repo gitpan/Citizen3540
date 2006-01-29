@@ -10,7 +10,7 @@ use vars qw/$VERSION %EXPORT_TAGS @ISA/;
 use Exporter ();
 @ISA = qw/Exporter/;
 %EXPORT_TAGS = (constants => [qw/RED BIG ULINE CENTER/]);
-$VERSION = 0.6;
+$VERSION = 0.61;
 
 Exporter::export_ok_tags('constants');
 
@@ -131,6 +131,7 @@ sub centerText
 __END__
 
 =head1 NAME
+
 Device::Citizen3540 - Advanced printing to Citizen 3540/3541 reciept printers
 
 =head1 SYNOPSIS
@@ -140,19 +141,21 @@ Device::Citizen3540 - Advanced printing to Citizen 3540/3541 reciept printers
 	$printer->print("This is simple text");
 
 	use Device::Citizen3540 qw/:constants/;
-	my $printer = new Device::Citizen3540('/dev/ttyS3'); # Use the 3rd serial port
 	$printer->print("This is title text", BIG | CENTER | ULINE);
 	$printer->print("This is red text", RED);
 
 =head1 DESCRIPTION
-This module allows the user to easliy output to a Citizen iDP3540/3541 Dot Matrix POS printer.  This receipt printer
+
+This module allows the user to easily output to a Citizen iDP3540/3541 Dot Matrix POS printer.  This receipt printer
 supports enlarged text, underlining, red text and graphics.  This module supports most of the text features.  This
 module was written with the serial version of the printer in mind, but should work with other interfaces as long
 as your operating system allows interaction via a device file.  Written and tested on a Linux 2.6 machine, but with
-exception of the default device file should be cross platform (with notiable exception of Windows, but there is a
+exception of the default device file should be cross platform (with notable exception of Windows, but there is a
 native print driver for that platform)
 
+
 =head1 ENVIRONMENT
+
 =over 4
 
 =item LPDEV
@@ -160,10 +163,23 @@ native print driver for that platform)
 If this environmental variable is set, the value of it is used as the device to
 write printer commands/text to.
 
+=back
+
+=head1 AUTHOR
+
+Scott Peshak E<speshak@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2006 Scott Peshak.
+
+This program is free software, you may redistribute it and/or modify it under the same terms as Perl itself.
+
 
 =head1 SEE ALSO
-The user manual for the Citizen idp3540/3541 is avaliable (at the time of this writing) online
-at L<http://www.quad.de/ftp/data/citizen/3540-u.pdf> If that site nolonger exists when you read 
+
+The user manual for the Citizen idp3540/3541 is available (at the time of this writing) online
+at L<http://www.quad.de/ftp/data/citizen/3540-u.pdf> If that site no longer exists when you read 
 this, try a web search, there seem to be a lot of mirrors of that file.
 
 =cut
